@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Edit' if editing else 'Add' }} Topic · Administration{% endblock %}
+{% block content %}
+<section class="admin-shell"><div class="container">
+  <a class="text-link" href="{{ url_for('auth.admin_topics') }}">← Back to learning content</a>
+  <div class="admin-top mt-3"><div>
+    <div class="eyebrow">TOPIC EDITOR</div>
+    <h1>{{ 'Edit topic' if editing else 'Add a new topic' }}</h1>
+    <p class="muted mb-0">{{ 'Update the topic details without changing its lessons or knowledge checks.' if editing else 'Add another cyber-safety topic to the learning platform. The title must be different from the existing topics.' }}</p>
+  </div></div>
+  <form method="post" class="admin-panel mt-4">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="row g-3">
+      <div class="col-md-8"><label class="form-label">Topic title</label><input class="form-control" name="title" value="{{ topic.title if topic else '' }}" placeholder="e.g. Device Update Safety" required maxlength="180"></div>
+      <div class="col-md-4"><label class="form-label">Display position</label><input class="form-control" type="number" min="1" name="position" value="{{ topic.position if topic else next_position }}" required></div>
+      <div class="col-12"><label class="form-label">Topic description</label><textarea class="form-control" name="description" rows="5" placeholder="Briefly explain what learners will learn in this topic." required>{{ topic.description if topic else '' }}</textarea></div>
+    </div>
+    <div class="d-flex gap-2 mt-4 flex-wrap"><button type="submit" class="btn btn-primary">{{ 'Save topic changes' if editing else 'Add topic' }}</button><a class="btn btn-outline-primary" href="{{ url_for('auth.admin_topics') }}">Cancel</a></div>
+  </form>
+</div></section>
+{% endblock %}

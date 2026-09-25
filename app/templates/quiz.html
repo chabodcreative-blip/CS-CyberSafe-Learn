@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Knowledge Check · {{lesson.title}}{% endblock %}
+{% block content %}
+<section class="check-shell"><div class="container">
+  <div class="check-header"><div class="d-flex justify-content-between gap-3 align-items-start"><div><div class="eyebrow">STEP 3 · KNOWLEDGE CHECK</div><h1>{{lesson.title}}</h1><p>Answer the questions using the material and illustrated example you have just studied. Your result is calculated automatically.</p></div><div class="topic-number">TOPIC {{'%02d'|format(topic.position)}}</div></div></div>
+  <form method="post" action="{{url_for('auth.quiz',lesson_id=lesson.id)}}" class="check-form"><input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+  {% for q in questions %}<fieldset class="check-question"><div class="question-top"><div class="question-num">{{'%02d'|format(loop.index)}}</div><div class="question-text">{{q.question}}</div></div><div class="option-list">{% for option in q.options|fromjson %}<label class="check-option"><input type="radio" name="q_{{q.id}}" value="{{loop.index0}}" required><span>{{option}}</span></label>{% endfor %}</div></fieldset>{% endfor %}
+  <div class="check-submit"><div><strong>Completion threshold: 70%</strong><span>Your result will show where another review may be useful.</span></div><button class="btn btn-primary btn-lg">Submit knowledge check <i class="bi bi-check2-circle ms-1"></i></button></div>
+  </form>
+</div></section>
+{% endblock %}

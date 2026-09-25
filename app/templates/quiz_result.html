@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Knowledge Check Result · {{lesson.title}}{% endblock %}
+{% block content %}
+<section class="section-block"><div class="container">
+  <div class="result-card text-center"><div class="eyebrow">KNOWLEDGE CHECK RESULT</div><h1 class="mt-2">{{percentage}}%</h1><p class="muted">{{score}} of {{total}} questions correct · {{lesson.title}}</p>
+  {% if percentage >= 70 %}<div class="alert alert-success mt-4 text-start"><strong>Knowledge check passed.</strong> You reached the 70% threshold and can now mark this lesson complete.</div><form method="post" action="{{url_for('auth.complete_lesson',lesson_id=lesson.id)}}"><input type="hidden" name="csrf_token" value="{{csrf_token()}}"><button class="btn btn-primary btn-lg">Mark lesson complete <i class="bi bi-check-lg ms-1"></i></button></form>{% else %}<div class="alert alert-warning mt-4 text-start"><strong>Review recommended.</strong> Return to the material and illustrated example, then try the knowledge check again when you are ready.</div>{% endif %}
+  <div class="d-flex justify-content-center flex-wrap gap-2 mt-3"><a class="btn btn-outline-secondary" href="{{url_for('auth.lesson',lesson_id=lesson.id)}}">Review material</a>{% if percentage >= 70 %}<a class="btn btn-outline-primary" href="{{url_for('auth.topic_detail',topic_id=topic.id)}}">Back to topic</a>{% endif %}</div></div>
+  <div class="result-card result-review"><div class="eyebrow">FEEDBACK</div><h2>Question explanations</h2>{% for q in questions %}<div class="review-row"><span class="review-index">{{loop.index}}</span><div><strong>{{q.question}}</strong><p>{{q.explanation}}</p></div></div>{% endfor %}</div>
+</div></section>
+{% endblock %}

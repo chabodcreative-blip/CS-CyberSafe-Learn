@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Progress · CS CyberSafe Learn{% endblock %}
+{% block content %}
+<section class="dashboard-page motion-section"><div class="container">
+  <div class="dashboard-welcome"><div><span class="eyebrow">YOUR PROGRESS</span><h1>Keep learning, {{current_user.full_name.split()[0]}}.</h1><p>Pick up a topic or revisit something you want to understand better.</p></div><a class="primary-btn" href="{{url_for('auth.topics')}}">Explore topics <i class="bi bi-arrow-right"></i></a></div>
+  <div class="progress-overview"><div class="progress-big"><span>Overall progress</span><strong>{{progress}}%</strong><div><i style="width:{{progress}}%"></i></div></div><div><span>Lessons completed</span><b>{{completed_count}} / {{total_lessons}}</b></div><div><span>Knowledge checks</span><b>{{attempts|length}}</b></div></div>
+  {% if topic_rows %}<a class="dashboard-motion-card" href="{{url_for('auth.topic_detail',topic_id=topic_rows[0][0].id)}}"><div><span class="eyebrow">LEARN THROUGH MOTION</span><h2>{{topic_rows[0][0].title}}</h2><p>See a real situation move before you open the lesson.</p><span class="section-link">Open topic →</span></div><img src="{{url_for('static', filename='images/motion/' ~ '%02d'|format(topic_rows[0][0].position) ~ '.svg')}}" alt="Animated example for {{topic_rows[0][0].title}}"></a>{% endif %}
+  <div class="dashboard-section-head"><div><span class="eyebrow">YOUR TOPICS</span><h2>Learning progress</h2></div></div>
+  <div class="progress-topic-list">{% for t,pct in topic_rows %}<a href="{{url_for('auth.topic_detail',topic_id=t.id)}}" class="progress-topic-row"><span class="topic-index">{{'%02d'|format(loop.index)}}</span><span class="progress-topic-main"><strong>{{t.title}}</strong><small>{{pct}}% complete</small></span><span class="mini-progress"><i style="width:{{pct}}%"></i></span><i class="bi bi-arrow-up-right"></i></a>{% endfor %}</div>
+  <div class="dashboard-results"><div class="dashboard-section-head"><div><span class="eyebrow">RECENT CHECKS</span><h2>Knowledge-check results</h2></div></div><div class="result-list">{% for a in attempts %}<div class="result-row"><div><strong>{{a.lesson.title}}</strong><small>{{a.created_at.strftime('%d %b %Y')}}</small></div><b>{{a.percentage}}%</b></div>{% else %}<div class="empty-state">Your results will appear here after you complete a knowledge check.</div>{% endfor %}</div></div>
+</div></section>
+{% endblock %}

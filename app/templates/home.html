@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}CS CyberSafe Learn · Learn to pause, check, verify{% endblock %}
+{% set featured = topics[2] if topics|length > 2 else topics[0] if topics else None %}
+{% block content %}
+<section class="home-hero">
+  <div class="container home-hero-inner">
+    <div class="home-hero-copy">
+      <span class="eyebrow">CYBER SAFETY FOR EVERYDAY LIFE</span>
+      <h1>Pause.<br><span>Check.</span><br>Verify.</h1>
+      <p>Simple lessons for the moments when something online does not feel quite right.</p>
+      <div class="hero-actions"><a class="primary-btn" href="{{url_for('auth.topics')}}">Start learning</a><a class="quiet-btn" href="{{url_for('auth.register')}}">Create an account</a></div>
+    </div>
+    <div class="home-hero-visual" aria-hidden="true">
+      {% if featured %}<img src="{{url_for('static', filename='images/motion/' ~ '%02d'|format(featured.position) ~ '.svg')}}" alt="">{% endif %}
+      <div class="home-motion-caption"><span></span>Real situations, shown in motion</div>
+    </div>
+    <div class="home-hero-note"><span>12 topics</span><span>Real situations</span><span>Short knowledge checks</span></div>
+  </div>
+</section>
+
+<section class="home-section continue-section">
+  <div class="container">
+    <div class="section-intro"><div><span class="eyebrow">START HERE</span><h2>Pick one thing to learn.</h2></div><a class="section-link" href="{{url_for('auth.topics')}}">All topics</a></div>
+    {% if featured %}
+    <a class="featured-simple" href="{{url_for('auth.topic_detail',topic_id=featured.id)}}">
+      <div><span class="topic-kicker">TOPIC {{'%02d'|format(featured.position)}}</span><h3>{{featured.title}}</h3><p>{{featured.description}}</p></div>
+      <span class="featured-arrow">→</span>
+    </a>
+    {% endif %}
+  </div>
+</section>
+
+<section class="home-section topics-preview">
+  <div class="container">
+    <div class="section-intro"><div><span class="eyebrow">THE 12 TOPICS</span><h2>Learn at your own pace.</h2></div><p>Choose a topic, read the lesson, then check what you remember.</p></div>
+    <div class="topic-list">
+      {% for t in topics %}<a class="topic-row" href="{{url_for('auth.topic_detail',topic_id=t.id)}}"><span class="topic-index">{{'%02d'|format(t.position)}}</span><span class="topic-row-main"><strong>{{t.title}}</strong><small>{{t.description}}</small></span><span class="topic-arrow">→</span></a>{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="home-access"><div class="container access-inner"><div><span class="eyebrow">READY WHEN YOU ARE</span><h2>Start with a free learner account.</h2><p>Your progress is saved as you move through the topics.</p></div><div class="access-actions"><a class="primary-btn" href="{{url_for('auth.register')}}">Register</a><a class="secondary-btn" href="{{url_for('auth.login')}}">Log in</a></div></div></section>
+
+<section id="administrator-access" class="admin-access-section">
+  <div class="container admin-access-inner">
+    <div>
+      <span class="eyebrow">ADMINISTRATOR ACCESS</span>
+      <h2>Manage the learning space.</h2>
+      <p>A separate workspace for learners, topics, knowledge checks and results.</p>
+    </div>
+    <a class="admin-access-link" href="{{url_for('auth.admin_login')}}">Admin sign-in <span>→</span></a>
+  </div>
+</section>
+{% endblock %}

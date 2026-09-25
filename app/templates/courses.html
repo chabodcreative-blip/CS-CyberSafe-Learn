@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Topics · CS CyberSafe Learn{% endblock %}
+{% block content %}
+<section class="topics-head motion-section"><div class="container topics-head-grid"><div><span class="eyebrow">CYBER SAFETY TOPICS</span><h1>What would you like to understand?</h1><p>Take one topic at a time. Each one ends with a short knowledge check.</p></div><div class="topics-motion-preview">{% if topics %}<img src="{{url_for('static', filename='images/motion/' ~ '%02d'|format(topics[0].position) ~ '.svg')}}" alt="Animated cyber-safety learning example">{% endif %}</div></div></section>
+<section class="topics-section"><div class="container"><div class="topic-list topic-list-large">{% for t in topics %}<a class="topic-row" href="{{url_for('auth.topic_detail',topic_id=t.id)}}"><span class="topic-index">{{'%02d'|format(t.position)}}</span><span class="topic-row-main"><strong>{{t.title}}</strong><small>{{t.description}}</small></span><span class="topic-row-meta">{{t.lessons|length}} lesson{% if t.lessons|length != 1 %}s{% endif %} <span>→</span></span></a>{% endfor %}</div></div></section>
+{% endblock %}

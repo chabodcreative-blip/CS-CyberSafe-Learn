@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}{{lesson.title}} · CS CyberSafe Learn{% endblock %}
+{% block content %}
+<div class="lesson-page"><div class="container narrow">
+  <div class="lesson-breadcrumb"><a href="{{url_for('auth.topics')}}">Topics</a><span>/</span><a href="{{url_for('auth.topic_detail',topic_id=topic.id)}}">{{topic.title}}</a></div>
+  <header class="lesson-title"><span class="eyebrow">TOPIC {{'%02d'|format(topic.position)}} · LEARNING MATERIAL</span><h1>{{lesson.title}}</h1><p>{{lesson.objectives}}</p><div class="lesson-progress-flow"><span class="active">01 Learn</span><span>02 Check</span><span>03 Progress</span></div></header>
+  <article class="reading-copy"><div class="reading-lead"><span>IN THIS LESSON</span><p>{{lesson.objectives}}</p></div><div class="lesson-section-heading"><span class="eyebrow">THE IDEA</span><h2>{{topic.title}}</h2></div><div class="reading-flow">{% for para in lesson.content.split('\n\n') %}<section class="reading-card reading-card-{{ loop.index }}"><div class="reading-card-number">{{ '%02d'|format(loop.index) }}</div><div class="reading-card-body"><span class="reading-card-label">{% if loop.index == 1 %}Start here{% elif loop.index == 2 %}Why it matters{% elif loop.index == 3 %}A safer habit{% elif loop.index == 4 %}Put it into practice{% else %}Keep in mind{% endif %}</span><p>{{para}}</p></div></section>{% endfor %}</div>
+  <section class="scenario-block scenario-learning"><div class="scenario-copy"><span class="eyebrow">A REAL SITUATION</span>{% if topic.position == 1 %}<h2>Pause before the next click.</h2>{% elif topic.position == 2 %}<h2>Follow the clues.</h2>{% elif topic.position == 3 %}<h2>Inspect the route.</h2>{% elif topic.position == 4 %}<h2>Slow the pressure down.</h2>{% elif topic.position == 5 %}<h2>See what reuse can expose.</h2>{% elif topic.position == 6 %}<h2>Choose the audience.</h2>{% elif topic.position == 7 %}<h2>Question the request.</h2>{% elif topic.position == 8 %}<h2>Stop before opening.</h2>{% elif topic.position == 9 %}<h2>Read the address.</h2>{% elif topic.position == 10 %}<h2>Check the attachment.</h2>{% elif topic.position == 11 %}<h2>Protect yourself first.</h2>{% else %}<h2>Keep the code private.</h2>{% endif %}<p>{{lesson.examples}}</p><p class="motion-explain">Watch the sequence, then use the same decision in the real world.</p></div>
+  <div class="scenario-demo scenario-topic-{{ topic.position }}" aria-label="Animated example demonstrating {{topic.title}}">
+    <div class="lesson-motion-image"><img src="{{url_for('static', filename='images/motion/' ~ '%02d'|format(topic.position) ~ '.svg')}}" alt="Animated demonstration of {{topic.title}}"></div>
+    <div class="scenario-window">
+      {% if topic.position == 1 %}
+        <div class="scenario-window-top"><span>Account activity</span><b>09:42</b></div><div class="scenario-alert pulse-soft"><span class="demo-dot"></span><div><strong>New sign-in noticed</strong><small>Check the device and location before reacting.</small></div></div><div class="demo-action-row"><span>Pause</span><span>Check</span><span>Verify</span></div>
+      {% elif topic.position == 2 %}
+        <div class="scenario-window-top"><span>Account alert</span><b>Today</b></div><div class="scenario-alert slide-in"><span class="demo-dot"></span><div><strong>Unfamiliar sign-in</strong><small>Review the activity and secure the account if needed.</small></div></div><div class="demo-action-row"><span>Review activity</span><span>Secure account</span></div>
+      {% elif topic.position == 3 %}
+        <div class="scenario-window-top"><span>Inbox</span><b>1 new</b></div><div class="demo-message typing"><small>security@service-example.co</small><strong>Urgent: verify your account</strong><span class="demo-link">signin.example-secure.co</span></div><div class="demo-cursor"></div>
+      {% elif topic.position == 4 %}
+        <div class="scenario-window-top"><span>Message</span><b>Now</b></div><div class="demo-message slide-in"><small>Prize desk</small><strong>You have been selected.</strong><span class="demo-link">Pay a small fee to claim</span></div><div class="demo-stamp">STOP</div>
+      {% elif topic.position == 5 %}
+        <div class="scenario-window-top"><span>Accounts</span><b>Security</b></div><div class="demo-passwords"><span>School email <b>••••••••</b></span><span>Shopping <b>••••••••</b></span><span>Banking <b>••••••••</b></span></div><div class="demo-badge">Use unique passwords</div>
+      {% elif topic.position == 6 %}
+        <div class="scenario-window-top"><span>New post</span><b>Audience</b></div><div class="demo-post"><div class="demo-photo"></div><strong>Home for the weekend.</strong><span>Visible to: Everyone</span></div><div class="demo-audience pulse-soft">Review audience</div>
+      {% elif topic.position == 7 %}
+        <div class="scenario-window-top"><span>Online form</span><b>Step 2</b></div><div class="demo-form"><span>Name</span><i></i><span>Date of birth</span><i></i><span>Bank PIN</span><i class="warning-line"></i></div><div class="demo-badge">Ask why it is needed</div>
+      {% elif topic.position == 8 %}
+        <div class="scenario-window-top"><span>Download</span><b>2.4 MB</b></div><div class="demo-download"><strong>FreeVideoPlayer.exe</strong><span>Unknown publisher</span><div class="demo-progress"><i></i></div></div><div class="demo-stamp">PAUSE</div>
+      {% elif topic.position == 9 %}
+        <div class="scenario-window-top"><span>Browser</span><b>Secure check</b></div><div class="demo-url"><span>https://</span><strong>bank-login.example</strong></div><div class="demo-search"><span>Search result</span><b>Check the address first</b></div><div class="demo-cursor"></div>
+      {% elif topic.position == 10 %}
+        <div class="scenario-window-top"><span>Inbox</span><b>Attachment</b></div><div class="demo-message"><small>Alex &lt;alex@example.com&gt;</small><strong>Invoice_042.pdf.exe</strong><span class="demo-link">Unexpected attachment</span></div><div class="demo-attachment pulse-soft">Check before opening</div>
+      {% elif topic.position == 11 %}
+        <div class="scenario-window-top"><span>Group chat</span><b>7 messages</b></div><div class="demo-chat"><span>“Look at this.”</span><span class="harmful">“Everyone should see this.”</span><span>“Please stop.”</span></div><div class="demo-action-row"><span>Save evidence</span><span>Block / report</span></div>
+      {% else %}
+        <div class="scenario-window-top"><span>Sign-in</span><b>Verification</b></div><div class="demo-code"><small>One-time verification code</small><strong>••••••</strong></div><div class="demo-call pulse-soft"><span>Caller asks for the code</span><b>Do not share it</b></div>
+      {% endif %}
+    </div>
+    <div class="scenario-caption"><span class="demo-dot"></span><span>Watch the detail change</span></div>
+  </div></section>
+  <section class="takeaway-block"><span class="eyebrow">REMEMBER</span><h2>Keep these habits.</h2><p>{{lesson.takeaways}}</p></section>
+  <div class="lesson-next"><div><span class="eyebrow">NEXT</span><h2>Check your understanding.</h2><p>A few questions based on this lesson.</p></div><a class="primary-btn" href="{{url_for('auth.quiz',lesson_id=lesson.id)}}">Continue</a></div>
+  </article>
+</div></div>
+{% endblock %}

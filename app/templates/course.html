@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}{{topic.title}} · CS CyberSafe Learn{% endblock %}
+{% block content %}
+<section class="topic-hero motion-section">
+  <div class="container topic-hero-grid">
+    <div class="topic-hero-copy">
+      <span class="eyebrow">TOPIC {{'%02d'|format(topic.position)}}</span>
+      <h1>{{topic.title}}</h1>
+      <p>{{topic.description}}</p>
+      {% if current_user.is_authenticated %}<div class="topic-progress-line"><span>Your progress</span><b>{{progress}}%</b><div><i style="width:{{progress}}%"></i></div></div>{% endif %}
+      <a class="primary-btn" href="#learning-material">Start this topic <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="topic-motion-frame">
+      <img src="{{url_for('static', filename='images/motion/' ~ '%02d'|format(topic.position) ~ '.svg')}}" alt="Animated learning demonstration for {{topic.title}}">
+      <span class="motion-label">{% if topic.position == 1 %}Pause → Check → Verify{% elif topic.position == 2 %}Notice → Secure → Report{% elif topic.position == 3 %}Message → Inspect → Verify{% elif topic.position == 4 %}Promise → Pressure → Stop{% elif topic.position == 5 %}Reuse → Exposure → Separate{% elif topic.position == 6 %}Post → Audience → Review{% elif topic.position == 7 %}Request → Purpose → Decide{% elif topic.position == 8 %}Download → Warning → Stop{% elif topic.position == 9 %}Search → Address → Verify{% elif topic.position == 10 %}Message → File → Confirm{% elif topic.position == 11 %}Harm → Evidence → Support{% else %}Login → Code → Protect{% endif %}</span>
+    </div>
+  </div>
+</section>
+<section id="learning-material" class="topic-learning"><div class="container narrow"><div class="learning-intro"><span class="eyebrow">LEARNING PATH</span><h2>Learn it through a real situation.</h2><p>The moving example shows the idea first. Open the lesson when you are ready to go deeper.</p></div>
+{% for lesson in topic.lessons %}<article class="lesson-row"><span class="lesson-row-number">{{'%02d'|format(loop.index)}}</span><div><span class="topic-kicker">LESSON {{lesson.position}}</span><h3>{{lesson.title}}</h3><p>{{lesson.objectives}}</p><div class="lesson-tags"><span>Learning material</span><span>Knowledge check</span></div></div><a class="round-arrow" href="{{url_for('auth.lesson',lesson_id=lesson.id)}}" aria-label="Study {{lesson.title}}">→</a></article>{% endfor %}
+</div></section>
+{% endblock %}
